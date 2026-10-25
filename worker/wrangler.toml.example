@@ -1,0 +1,38 @@
+# Copy to wrangler.toml and fill in your own values (or just run ../setup.sh).
+name = "talktype"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+# Your Cloudflare account id. `wrangler whoami` shows it, or set
+# CLOUDFLARE_ACCOUNT_ID in your env and delete this line.
+account_id = "YOUR_ACCOUNT_ID"
+
+# Keyless — runs on whatever account deploys this worker, billed to that
+# account's Workers AI free tier (10k neurons/day). No API key to set.
+[ai]
+binding = "AI"
+
+# Created by `wrangler d1 create talktype` (or setup.sh). Paste the id it prints.
+[[d1_databases]]
+binding = "DB"
+database_name = "talktype"
+database_id = "YOUR_D1_DATABASE_ID"
+
+[assets]
+directory = "public"
+binding = "ASSETS"
+run_worker_first = true
+
+# "1" stores raw + cleaned dictation text in D1 (lets you review misfires).
+# "0" keeps only corrections and never stores transcripts. Default off.
+[vars]
+LOG_DICTATIONS = "0"
+
+[observability]
+enabled = true
+
+# Optional: serve on your own domain instead of *.workers.dev.
+# [[routes]]
+# pattern = "flow.example.com"
+# custom_domain = true

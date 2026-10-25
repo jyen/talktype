@@ -1,0 +1,11 @@
+# secrets + per-user config (ship wrangler.toml.example instead)
+worker/wrangler.toml
+.wrangler/
+worker/.wrangler/
+
+# build outputs (bake in the user's token)
+mac/build/
+ios/*.shortcut
+ios/unsigned.shortcut
+worker/public/files/*
+!worker/public/files/.keep
