@@ -16,11 +16,46 @@ Both models run through the Workers AI binding, which is keyless: it uses whatev
 
 ## Deploy your own (5 min)
 
-Prereqs: a Cloudflare account and [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) (`npm i -g wrangler`), then `wrangler login`.
+Prereqs: a (free) Cloudflare account and [`wrangler`](https://developers.cloudflare.com/workers/wrangler/): `npm i -g wrangler`.
+
+### Authenticate wrangler with Cloudflare
+
+You need to let wrangler talk to your Cloudflare account. Two ways — pick one:
+
+**Option A — browser login (easiest, recommended):**
+
+```bash
+wrangler login
+```
+
+This opens your browser, you click **Allow**, and wrangler is authorized. Nothing to copy or paste. This is all `setup.sh` needs.
+
+**Option B — API token (for a server/CI, or if you can't use the browser flow):**
+
+1. Go to **[dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens)** → **Create Token**.
+2. Start from the **“Edit Cloudflare Workers”** template (easiest), then make sure these permissions are present (add any that are missing via **+ Add more**):
+   - **Account → Workers Scripts → Edit**
+   - **Account → D1 → Edit**
+   - **Account → Workers AI → Read**
+   - **Account → Account Settings → Read**
+   - *(only if you'll use a custom domain)* **Zone → Workers Routes → Edit** on your zone
+3. Under **Account Resources**, select the account you'll deploy to. **Continue to summary → Create Token.**
+4. **Copy the token now** — Cloudflare shows it only once.
+5. Also grab your **Account ID**: dashboard → **Workers & Pages** → it's on the right sidebar (a 32-char hex string).
+6. Export both before running setup:
+
+   ```bash
+   export CLOUDFLARE_API_TOKEN=<the-token-you-copied>
+   export CLOUDFLARE_ACCOUNT_ID=<your-32-char-account-id>
+   ```
+
+> Heads up: this Cloudflare token is **only** for deploying (wrangler auth). It is **not** the same as `FLOW_TOKEN`, which is the bearer secret your mac/iPhone clients use to call your worker — that one you make up yourself (any random string) in the next step.
+
+### Deploy
 
 ```bash
 cd worker
-./setup.sh          # creates the D1 db, writes wrangler.toml, sets your token, deploys
+./setup.sh          # creates the D1 db, writes wrangler.toml, sets your FLOW_TOKEN, deploys
 ```
 
 `setup.sh` will:
