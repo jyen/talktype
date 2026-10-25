@@ -104,9 +104,9 @@ curl -X POST .../api/correct -H "Authorization: Bearer <token>" -H "content-type
 curl .../api/corrections -H "Authorization: Bearer <token>"   # list them
 ```
 
-**By voice (hands-free):** start a dictation with *"flow correction, ..."*:
-- *"flow correction, add the word Servbank"*
-- *"flow correction, change click fuse to ClickFuze"*
+**By voice (hands-free):** start a dictation with *"talktype correction, ..."*:
+- *"talktype correction, add the word Servbank"*
+- *"talktype correction, change click fuse to ClickFuze"*
 
 It saves the correction and replies `✓ correction saved` instead of pasting.
 
